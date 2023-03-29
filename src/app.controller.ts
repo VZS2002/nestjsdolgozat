@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Render,
 } from '@nestjs/common';
@@ -70,4 +71,26 @@ export class AppController {
     const account = await accountRepo.findOneBy({ id });
     await accountRepo.remove(account);
   }
+
+  @Patch('accounts/:id')
+  async updateAccountById(
+    @Param('id') id: number,
+    @Body() AccountDto: AccountDto,
+  ) {
+    const accountRepo = this.dataSource.getRepository(Account);
+    const account = await accountRepo.findOneBy({ id: id });
+    account.accountNumber = AccountDto.accountNumber;
+    account.balance = AccountDto.balance;
+    return accountRepo.save(account);
+  }
+
+  @Patch('owners/:id')
+  async updateOwnerById(@Param('id') id: number, @Body() OwnerDto: OwnerDto) {
+    const ownerRepo = this.dataSource.getRepository(Owner);
+    const owner = await ownerRepo.findOneBy({ id: id });
+    owner.fullName = OwnerDto.fullName;
+    owner.business = OwnerDto.business;
+    return ownerRepo.save(owner);
+  }
+
 }
