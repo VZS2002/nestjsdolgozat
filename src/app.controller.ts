@@ -50,7 +50,7 @@ export class AppController {
   }
 
   @Post('/accounts')
-  async addAcoount(@Body() accountDto: AccountDto) {
+  async addAccount(@Body() accountDto: AccountDto) {
     const accountRepo = this.dataSource.getRepository(Account);
     const account = new Account();
     account.accountNumber = accountDto.accountNumber;
@@ -93,4 +93,6 @@ export class AppController {
     return ownerRepo.save(owner);
   }
 
+  // @Post('/transfer/:sourceId/:targetId')
+  //async transfer(@Param('sourceId') sourceId : number, @Param('targetId') targetId : number
 }
